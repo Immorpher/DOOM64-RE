@@ -2,6 +2,8 @@
 
 #include "doomdef.h"
 #include "p_local.h"
+#include "r_local.h"
+#include "st_main.h"
 
 #define COLOR_RED     0xA40000FF
 #define COLOR_GREEN   0x00C000FF

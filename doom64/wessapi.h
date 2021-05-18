@@ -10,7 +10,8 @@
 #define _WESSAPI_H
 
 #include <ultra64.h>
-
+#include "seqload.h"
+#include "wessarc.h"
     /*------------------------------------------------------------------*/
     /*
         Enumerated types.
@@ -544,6 +545,29 @@ extern int wess_get_mute_release(void);
     */
 
 extern void * wess_get_master_status (void);
+
+extern void start_record_music_mute(int remember);
+extern void end_record_music_mute();
+
+int Is_Module_Loaded(void);
+int Is_Seq_Num_Valid(int seq_num);
+
+int wess_seq_structrig(sequence_data *psq_info,
+        int seq_num,
+        int seq_type,
+        enum HandleFlag gethandle,
+        TriggerPlayAttr *attr);
+
+void trackstart(track_status *ptmp, sequence_status *psq_stat);
+
+void Eng_SeqEnd (track_status *ptk_stat);
+
+int wess_handle_getposition(int handle);
+
+void wess_track_parm_mod(track_status *ptmp, int value, WessAction funcion);
+
+int open_sequence_data(void);
+void close_sequence_data(void);
 
 #endif
 

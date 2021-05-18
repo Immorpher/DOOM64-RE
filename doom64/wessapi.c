@@ -788,7 +788,7 @@ void assigntrackstat(track_status *ptk_stat, track_data *ptk_info) // 800302F8
 enum LoopedFlag { NoLooped, YesLooped };
 
 /* used by wess trigger functions */
-enum HandleFlag { NoHandle, YesHandle };
+//enum HandleFlag { NoHandle, YesHandle };
 
 int wess_seq_structrig(sequence_data *psq_info,
 	int seq_num,

@@ -13,7 +13,7 @@
 extern pmasterstat *pm_stat;    //0x800B41CC
 
 /* used by wess trigger functions */
-enum HandleFlag { NoHandle, YesHandle };
+//enum HandleFlag { NoHandle, YesHandle };
 
 /* used by wess_seq_stop and wess_seq_stop_and_voiceramp functions */
 enum MuteRelease { NoMuteRelease, YesMuteRelease};

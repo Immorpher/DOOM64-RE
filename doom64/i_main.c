@@ -5,6 +5,7 @@
 
 #include "i_main.h"
 #include "doomdef.h"
+#include "r_local.h"
 #include "st_main.h"
 
 // text for debug
@@ -529,15 +530,36 @@ void I_Init(void) // 80005C50
 
     if(osTvType == OS_TV_PAL)
     {
-        ViMode = &osViModeTable[OS_VI_PAL_LPN2];
+        if(SCREEN_WD == 640)
+        {
+            ViMode = &osViModeTable[OS_VI_PAL_HPN2];
+        }
+        else
+        {
+            ViMode = &osViModeTable[OS_VI_PAL_LPN2];
+        }
     }
     else if(osTvType == OS_TV_NTSC)
     {
-        ViMode = &osViModeTable[OS_VI_NTSC_LPN2];
+        if(SCREEN_WD == 640)
+        {
+            ViMode = &osViModeTable[OS_VI_NTSC_HPN2];
+        }
+        else
+        {
+            ViMode = &osViModeTable[OS_VI_NTSC_LPN2];
+        }
     }
     else if(osTvType == OS_TV_MPAL)
     {
-        ViMode = &osViModeTable[OS_VI_MPAL_LPN2];
+        if(SCREEN_WD == 640)
+        {
+            ViMode = &osViModeTable[OS_VI_MPAL_HPN2];
+        }
+        else
+        {
+            ViMode = &osViModeTable[OS_VI_MPAL_LPN2];
+        }    
     }
 
     video_hStart = ViMode->comRegs.hStart;
@@ -903,65 +925,97 @@ void I_WIPE_MeltScreen(void) // 80006964
 
 void I_WIPE_FadeOutScreen(void) // 80006D34
 {
-    u32 *fb;
-    int y1, tpos, outcnt;
-
-    fb = Z_Malloc((SCREEN_WD*SCREEN_HT)*sizeof(u32), PU_STATIC, NULL);
-
-    I_GetScreenGrab();
-    D_memcpy(fb, &cfb[vid_side ^ 1][0], (SCREEN_WD*SCREEN_HT)*sizeof(u32));
-
-    outcnt = 248;
-    do
+    if (SCREEN_WD == 640)
     {
-        I_ClearFrame();
+int outcnt = 248;	
+do {
+	I_CheckGFX();
 
-        gDPSetCycleType(GFX1++, G_CYC_1CYCLE);
-        gDPSetTextureLUT(GFX1++, G_TT_NONE);
-        gDPSetTexturePersp(GFX1++, G_TP_NONE);
-        gDPSetAlphaCompare(GFX1++, G_AC_NONE);
-        gDPSetCombineMode(GFX1++, G_CC_D64COMB06, G_CC_D64COMB06);
-        gDPSetRenderMode(GFX1++,G_RM_OPA_SURF,G_RM_OPA_SURF2);
-        gDPSetPrimColor(GFX1++, 0, 0, outcnt, outcnt, outcnt, 0);
+    gDPPipeSync(GFX1++);
 
-        tpos = 0;
-        y1 = 0;
+    gDPSetCycleType(GFX1++, G_CYC_1CYCLE);
+
+    gDPSetTextureLUT(GFX1++, G_TT_RGBA16);
+    gDPSetTexturePersp(GFX1++, G_TP_NONE);
+
+    gDPSetAlphaCompare(GFX1++, G_AC_THRESHOLD);
+
+    gDPSetBlendColor(GFX1++, 0, 0, 0, outcnt);
+    gDPSetCombineMode(GFX1++, G_CC_D64COMB05, G_CC_D64COMB05);
+    gDPSetRenderMode(GFX1++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+            gDPSetPrimColor(GFX1++, 0, 0, outcnt, outcnt, outcnt, 0);
+
+    gDPFillRectangle(GFX1++, 0, 0, 639, 479);
+            I_DrawFrame();
+            outcnt -= 8;
+        } while (outcnt >= 0);
+
+        I_GetScreenGrab();
+//        Z_Free(fb);
+    }
+    else
+    {
+        u32 *fb;
+        int y1, tpos, outcnt;
+
+        fb = Z_Malloc((SCREEN_WD*SCREEN_HT)*sizeof(u32), PU_STATIC, NULL);
+
+        I_GetScreenGrab();
+        D_memcpy(fb, &cfb[vid_side ^ 1][0], (SCREEN_WD*SCREEN_HT)*sizeof(u32));
+
+        outcnt = 248;
         do
         {
-            gDPSetTextureImage(GFX1++, G_IM_FMT_RGBA, G_IM_SIZ_32b , SCREEN_WD, fb);
-            gDPSetTile(GFX1++, G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                       (SCREEN_WD >> 2), 0, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
+            I_ClearFrame();
 
-            gDPLoadSync(GFX1++);
-            gDPLoadTile(GFX1++, G_TX_LOADTILE,
-                        (0 << 2), (tpos << 2),
-                        ((SCREEN_WD-1) << 2), (((tpos+3)-1) << 2));
+            gDPSetCycleType(GFX1++, G_CYC_1CYCLE);
+            gDPSetTextureLUT(GFX1++, G_TT_NONE);
+            gDPSetTexturePersp(GFX1++, G_TP_NONE);
+            gDPSetAlphaCompare(GFX1++, G_AC_NONE);
+            gDPSetCombineMode(GFX1++, G_CC_D64COMB06, G_CC_D64COMB06);
+            gDPSetRenderMode(GFX1++,G_RM_OPA_SURF,G_RM_OPA_SURF2);
+            gDPSetPrimColor(GFX1++, 0, 0, outcnt, outcnt, outcnt, 0);
 
-            gDPPipeSync(GFX1++);
-            gDPSetTile(GFX1++, G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                       (SCREEN_WD >> 2), 0, G_TX_RENDERTILE, 0, 0, 0, 0, 0, 0, 0);
+            tpos = 0;
+            y1 = 0;
+            do
+            {
+                gDPSetTextureImage(GFX1++, G_IM_FMT_RGBA, G_IM_SIZ_32b , SCREEN_WD, fb);
+                gDPSetTile(GFX1++, G_IM_FMT_RGBA, G_IM_SIZ_32b,
+                           (SCREEN_WD >> 2), 0, G_TX_LOADTILE, 0, 0, 0, 0, 0, 0, 0);
 
-            gDPSetTileSize(GFX1++, G_TX_RENDERTILE,
-                           (0 << 2), (tpos << 2),
-                           ((SCREEN_WD-1) << 2), (((tpos+3)-1) << 2));
+                gDPLoadSync(GFX1++);
+                gDPLoadTile(GFX1++, G_TX_LOADTILE,
+                            (0 << 2), (tpos << 2),
+                            ((SCREEN_WD-1) << 2), (((tpos+3)-1) << 2));
 
-            gSPTextureRectangle(GFX1++,
-                                (0 << 2), (y1 << 2),
-                                (SCREEN_WD << 2), ((y1+3) << 2),
-                                G_TX_RENDERTILE,
-                                (0 << 5), (tpos << 5),
-                                (1 << 10), (1 << 10));
+                gDPPipeSync(GFX1++);
+                gDPSetTile(GFX1++, G_IM_FMT_RGBA, G_IM_SIZ_32b,
+                           (SCREEN_WD >> 2), 0, G_TX_RENDERTILE, 0, 0, 0, 0, 0, 0, 0);
 
-            tpos += 3;
-            y1 += 3;
-        } while (y1 != SCREEN_HT);
+                gDPSetTileSize(GFX1++, G_TX_RENDERTILE,
+                               (0 << 2), (tpos << 2),
+                               ((SCREEN_WD-1) << 2), (((tpos+3)-1) << 2));
 
-        I_DrawFrame();
-        outcnt -= 8;
-    } while (outcnt >= 0);
+                gSPTextureRectangle(GFX1++,
+                                    (0 << 2), (y1 << 2),
+                                    (SCREEN_WD << 2), ((y1+3) << 2),
+                                    G_TX_RENDERTILE,
+                                    (0 << 5), (tpos << 5),
+                                    (1 << 10), (1 << 10));
 
-    I_GetScreenGrab();
-    Z_Free(fb);
+                tpos += 3;
+                y1 += 3;
+            } while (y1 != SCREEN_HT);
+
+            I_DrawFrame();
+            outcnt -= 8;
+        } while (outcnt >= 0);
+
+        I_GetScreenGrab();
+        Z_Free(fb);
+    }
 }
 
 

@@ -5,9 +5,12 @@
 /* ULTRA64 LIBRARIES */
 #include <ultra64.h>
 #include "ultratypes.h"
+#include <PR/os_internal.h>
 #include <PR/ramrom.h>	/* needed for argument passing into the app */
 #include <assert.h>
 #include <libaudio.h>
+
+extern int  abs(int);
 
 /* TEST DEBUG */
 #include "graph.h"
@@ -61,8 +64,8 @@ extern u32 cfb[2][SCREEN_WD*SCREEN_HT]; // 8036A000
 int D_vsprintf(char *string, const char *format, int *argptr);
 
 /* c_convert.c  */
-void LightGetHSV(int r,int g,int b,int *h,int *s,int *v); // 800020BC
-void LightGetRGB(int h,int s,int v,int *r,int *g,int *b); // 8000248C
+int LightGetHSV(int r,int g,int b); // 800020BC
+int LightGetRGB(int h,int s,int v); // 8000248C
 
 /*
 ===============================================================================
@@ -530,6 +533,7 @@ int MiniLoop ( void (*start)(void),  void (*stop)()
 int	G_Ticker (void);
 void G_Drawer (void);
 void G_RunGame (void);
+void G_PlayerFinishLevel (int player);
 
 /*================================== */
 

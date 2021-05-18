@@ -3,6 +3,7 @@
 #include "doomdef.h"
 #include "p_local.h"
 #include "sounds.h"
+#include "st_main.h"
 
 void G_PlayerReborn (int player);
 

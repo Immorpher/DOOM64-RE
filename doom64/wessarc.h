@@ -444,6 +444,11 @@ extern void wess_disable(void);
 
 extern long WessInterruptHandler(void);
 
+extern void process_function_queue(void);
+extern void SeqEngine(void);
+
+void wess_error_callback(char *errstring, int errnum1, int errnum2);
+
 typedef void(*WessAction)(track_status *ptmp, int value);
 
 #define QUEUE_SEQ_STOPALL					0

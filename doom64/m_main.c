@@ -1,8 +1,11 @@
 /* m_main.c -- menu routines */
 
 #include "doomdef.h"
+#include "p_spec.h"
 #include "r_local.h"
 #include "st_main.h"
+
+extern int gobalcheats; // [GEC]
 
 //intermission
 int DrawerStatus;
@@ -337,9 +340,9 @@ boolean enable_messages = true; // 8005A7B8
 int HUDopacity = 128;			// [Immorpher] HUD opacity
 int SfxVolume = 100;             // 8005A7C0
 int MusVolume = 80;             // 8005A7C4
-int brightness = 100;             // 8005A7C8
+int brightness = 0;             // 8005A7C8
 int M_SENSITIVITY = 0;          // 8005A7CC
-boolean FeaturesUnlocked = false; // 8005A7D0
+boolean FeaturesUnlocked = true; // 8005A7D0
 int MotionBob = 0x100000; // [Immorpher] Motion Bob works in hexadecimal
 int VideoFilter = 0; // [GEC & Immorpher] Set 3 point filtering on or off
 boolean antialiasing = false; // [Immorpher] Anti-Aliasing
@@ -352,7 +355,7 @@ boolean runintroduction = false; // [Immorpher] New introduction sequence!
 boolean StoryText = true; // [Immorpher] Skip story cut scenes?
 boolean MapStats = false; // [Immorpher] Enable map statistics for automap?
 int HUDmargin = 15; // [Immorpher] HUD margin options (default 20)
-boolean ColoredHUD = true; // [Immorpher] Colored hud
+boolean ColoredHUD = false; // [Immorpher] Colored hud
 
 int TempConfiguration[13] = // 8005A80C
 {
@@ -432,6 +435,9 @@ int DefaultConfiguration[6][13] = // 8005A840
 int M_RunTitle(void) // 80007630
 {
     int exit;
+	players[0].cheats |= CF_GAMMA;
+    gobalcheats |= CF_GAMMA;
+    P_RefreshVideo();
 
     DrawerStatus = 0;
     startskill = sk_easy;
@@ -699,7 +705,7 @@ void M_MenuGameDrawer(void) // 80007C48
         M_DrawBackground(56, 57, 80, "TITLE");
 
         if (MenuItem != Menu_Title) {
-            M_DrawOverlay(0, 0, 320, 240, 96);
+            M_DrawOverlay(0, 0, SCREEN_WD, SCREEN_HT, 96);
         }
 
         MenuCall();
@@ -710,7 +716,6 @@ void M_MenuGameDrawer(void) // 80007C48
 extern mobj_t mobjhead;
 extern mapthing_t *spawnlist;   // 800A5D74
 extern int spawncount;          // 800A5D78
-extern int gobalcheats; // [GEC]
 
 int M_MenuTicker(void) // 80007E0C
 {
@@ -2570,11 +2575,11 @@ void M_DrawBackground(int x, int y, int color, char *name) // 80009A68
                        ((width - 1) << 2), (((t + yh) - 1) << 2));
 
         gSPTextureRectangle(GFX1++,
-            (x << 2), (y << 2),
-            ((width + x) << 2), ((yh + y) << 2),
+            (x << 2)*(SCREEN_WD/320), (y << 2)*(SCREEN_WD/320),
+            ((width + x) << 2)*(SCREEN_WD/320), ((yh + y) << 2)*(SCREEN_WD/320),
             G_TX_RENDERTILE,
             (0 << 5), (t << 5),
-            (1 << 10), (1 << 10));
+            (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
 
         height -= yh;
         t += yh;
@@ -2586,7 +2591,7 @@ void M_DrawBackground(int x, int y, int color, char *name) // 80009A68
 
 void M_DrawOverlay(int x, int y, int w, int h, int color) // 80009F58
 {
-    I_CheckGFX();
+/*    I_CheckGFX();
 
     gDPPipeSync(GFX1++);
 
@@ -2603,7 +2608,7 @@ void M_DrawOverlay(int x, int y, int w, int h, int color) // 80009F58
 
     gDPSetPrimColorD64(GFX1++, 0, 0, color);
 
-    gDPFillRectangle(GFX1++, x, y, w, h);
+    gDPFillRectangle(GFX1++, x, y, w, h);*/
     globallump = -1;
 }
 

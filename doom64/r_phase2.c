@@ -366,11 +366,11 @@ void R_RenderSkyPic(int lump, int yoffset) // 80025BDC
         gDPSetTile(GFX1++, G_IM_FMT_CI, G_IM_SIZ_8b, 32, 0, G_TX_RENDERTILE, 0, 0, 0, 0, 0, 8, 0);
         gDPSetTileSize(GFX1++, 0, 0, 0, ((256-1) << 2), ((tileh - 1) << 2));
 
-        gSPTextureRectangle(GFX1++, (0 << 2), (yl << 2),
-                                    (320 << 2), (yh << 2),
+        gSPTextureRectangle(GFX1++, (0 << 2)*(SCREEN_WD/320), (yl << 2)*(SCREEN_WD/320),
+                                    (320 << 2)*(SCREEN_WD/320), (yh << 2)*(SCREEN_WD/320),
                                     G_TX_RENDERTILE,
                                     (ang << 5), (0 << 5),
-                                    (1 << 10), (1 << 10));
+                                    (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
         src += (tileh << 8);
         yl = yh;
     }

@@ -1142,7 +1142,7 @@ void R_RenderPSprites(void) // 80028f20
 	int             width;
 	int             height;
 	int             width2;
-	int             yh;
+	int             xh, yh;
 	int             x, y;
 
 	I_CheckGFX();
@@ -1186,8 +1186,8 @@ void R_RenderPSprites(void) // 80028f20
             height = ((spriteN64_t*)data)->height;
             src = data + sizeof(spriteN64_t);
 
-            x = (((psp->sx >> 16) - ((spriteN64_t*)data)->xoffs) + 160) << 2;
-            y = (((psp->sy >> 16) - ((spriteN64_t*)data)->yoffs) + 239) << 2;
+            x = (((psp->sx >> 16) - ((spriteN64_t*)data)->xoffs)*(SCREEN_WD/320) + (SCREEN_WD >> 1)) << 2;
+            y = (((psp->sy >> 16) - ((spriteN64_t*)data)->yoffs)*(SCREEN_HT/240) + (SCREEN_HT - 1)) << 2;
             if (viewplayer->onground)
             {
                 x += (quakeviewx >> 20);
@@ -1263,14 +1263,15 @@ void R_RenderPSprites(void) // 80028f20
 
                     gDPSetTileSize(GFX1++, G_TX_RENDERTILE, 0, 0, ((width2 - 1) << 2), (tileh - 1) << 2);
 
-                    yh = (tileh << 2) + y;
+                    yh = ((tileh << 2)*(SCREEN_HT/240)) + y;
+                    xh = ((width << 2)*(SCREEN_WD/320)) + x;
 
                     gSPTextureRectangle(GFX1++,
                                     x, y,
-                                    (width << 2) + x, yh,
+                                    xh, yh,
                                     0,
                                     0, 0,
-                                    (1 << 10), (1 << 10));
+                                    (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
 
                     height -= tileh;
                     if (height < tileh) {

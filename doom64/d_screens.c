@@ -3,6 +3,7 @@
 #include "i_main.h"
 #include "doomdef.h"
 #include "r_local.h"
+#include "st_main.h"
 
 int D_RunDemo(char *name, skill_t skill, int map) // 8002B2D0
 {

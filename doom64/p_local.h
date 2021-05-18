@@ -71,6 +71,8 @@ void P_InitThinkers (void);
 void P_AddThinker (thinker_t *thinker);
 void P_RemoveThinker (thinker_t *thinker);
 
+void P_CheckCheats (void);
+
 /*
 ===============================================================================
 
@@ -96,6 +98,7 @@ void P_DropWeapon (player_t *player);
 
 void	P_PlayerThink (player_t *player);
 
+void P_Thrust (player_t *player, angle_t angle, fixed_t move);
 
 /*
 ===============================================================================
@@ -124,6 +127,7 @@ void 	P_SpawnBlood (fixed_t x, fixed_t y, fixed_t z, int damage);
 //mobj_t *P_SpawnMissile (mobj_t *source, mobj_t *dest, mobjtype_t type);
 mobj_t *P_SpawnMissile (mobj_t *source, mobj_t *dest, fixed_t xoffs, fixed_t yoffs, fixed_t heightoffs, mobjtype_t type);
 
+void P_SpawnPlayer(/*mapthing_t *mthing*/);
 void	P_SpawnPlayerMissile (mobj_t *source, mobjtype_t type);
 
 void	P_RunMobjBase (void);//P_RunMobjBase2 (void);

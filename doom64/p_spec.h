@@ -1,4 +1,6 @@
 /* P_spec.h */
+#ifndef __P_SPEC_H
+#define __P_SPEC_H
 
 #include "r_local.h"
 
@@ -171,6 +173,8 @@ sector_t *getNextSector(line_t *line,sector_t *sec);
 
 int P_FindLightFromLightTag(int tag,int start);
 boolean P_ActivateLineByTag(int tag,mobj_t *thing);
+
+void P_AddSectorSpecial(sector_t* sector);
 
 /* */
 /*	SPECIAL */
@@ -652,3 +656,5 @@ int P_SuspendMacro(void); // 80021148
 void P_ToggleMacros(int tag, boolean toggleon); // 80021214
 void P_RunMacros(void); // 8002126C
 void P_RestartMacro(line_t *line, int id); // 80021384
+
+#endif

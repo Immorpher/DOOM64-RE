@@ -458,7 +458,7 @@ void F_DrawerIntermission(void) // 80002F14
 
     if (MenuCall)
     {
-        M_DrawOverlay(0, 0, 320, 240, 96);
+        M_DrawOverlay(0, 0, SCREEN_WD, SCREEN_HT, 96);
         MenuCall();
     }
 
@@ -868,7 +868,7 @@ void F_Drawer(void) // 800039DC
 
 	if (MenuCall)
     {
-        M_DrawOverlay(0, 0, 320, 240, 96);
+        M_DrawOverlay(0, 0, SCREEN_WD, SCREEN_HT, 96);
         MenuCall();
     }
 
@@ -1050,11 +1050,11 @@ void BufferedDrawSprite(int type, state_t *state, int rotframe, int color, int x
             yh = (y1 + (tpos << 2));
 
             gSPTextureRectangle(GFX1++,
-                                x1, y1,
-                                xh, yh,
+                                x1*(SCREEN_WD/320), y1*(SCREEN_WD/320),
+                                xh*(SCREEN_WD/320), yh*(SCREEN_WD/320),
                                 G_TX_RENDERTILE,
                                 (spos << 5), (0 << 5),
-                                (dsdx << 10), (1 << 10));
+                                (dsdx << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
 
             height -= tpos;
 

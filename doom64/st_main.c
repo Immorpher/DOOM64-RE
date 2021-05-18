@@ -1,6 +1,7 @@
 /* st_main.c -- status bar */
 
 #include "doomdef.h"
+#include "p_spec.h"
 #include "st_main.h"
 #include "r_local.h"
 
@@ -325,20 +326,20 @@ void ST_Drawer (void) // 80029DC0
         /* */
         /* Health */
         /* */
-        gSPTextureRectangle(GFX1++, (2+HUDmargin << 2), (218 - HUDmargin << 2),
-                                    (42 + HUDmargin << 2), (224 - HUDmargin  << 2),
+        gSPTextureRectangle(GFX1++, (2+HUDmargin << 2)*(SCREEN_WD/320), (218 - HUDmargin << 2)*(SCREEN_WD/320),
+                                    (42 + HUDmargin << 2)*(SCREEN_WD/320), (224 - HUDmargin  << 2)*(SCREEN_WD/320),
                                     G_TX_RENDERTILE,
                                     (0 << 5), (0 << 5),
-                                    (1 << 10), (1 << 10));
+                                    (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
 
         /* */
         /* Armor */
         /* */
-        gSPTextureRectangle(GFX1++, (280-HUDmargin << 2), (218 - HUDmargin << 2),
-                                    (316-HUDmargin << 2), (224 - HUDmargin << 2),
+        gSPTextureRectangle(GFX1++, (280-HUDmargin << 2)*(SCREEN_WD/320), (218 - HUDmargin << 2)*(SCREEN_WD/320),
+                                    (316-HUDmargin << 2)*(SCREEN_WD/320), (224 - HUDmargin << 2)*(SCREEN_WD/320),
                                     G_TX_RENDERTILE,
                                     (40 << 5), (0 << 5),
-                                    (1 << 10), (1 << 10));
+                                    (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
 
         /* */
         /* White color */
@@ -355,11 +356,11 @@ void ST_Drawer (void) // 80029DC0
                 /* */
                 /* Draw Keys Graphics */
                 /* */
-                gSPTextureRectangle(GFX1++, card_x[ind], (230-HUDmargin << 2),
-                                            card_x[ind]+(9 << 2), (240-HUDmargin << 2),
+                gSPTextureRectangle(GFX1++, card_x[ind]*(SCREEN_WD/320), (230-HUDmargin << 2)*(SCREEN_WD/320),
+                                            card_x[ind]+(9 << 2)*(SCREEN_WD/320), (240-HUDmargin << 2)*(SCREEN_WD/320),
                                             G_TX_RENDERTILE,
                                             ((ind * 9) << 5), (6 << 5),
-                                            (1 << 10), (1 << 10));
+                                            (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
             }
         }
 
@@ -502,11 +503,11 @@ void ST_Message(int x,int y,char *text,int color) // 8002A36C
                 s = (c - '!' & ~32) * ST_FONTWHSIZE;
 
                 gSPTextureRectangle(GFX1++,
-                                    (xpos << 2), (ypos << 2),
-                                    ((xpos + ST_FONTWHSIZE) << 2), ((ypos + ST_FONTWHSIZE) << 2),
+                                    (xpos << 2)*(SCREEN_WD/320), (ypos << 2)*(SCREEN_WD/320),
+                                    ((xpos + ST_FONTWHSIZE) << 2)*(SCREEN_WD/320), ((ypos + ST_FONTWHSIZE) << 2)*(SCREEN_WD/320),
                                     G_TX_RENDERTILE,
                                     (s << 5), (t << 5),
-                                    (1 << 10), (1 << 10));
+                                    (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
             }
             xpos += ST_FONTWHSIZE;
         }
@@ -851,11 +852,11 @@ void ST_DrawSymbol(int xpos, int ypos, int index, int color) // 8002ADEC
                  ((symbol->x + symbol->w) << 2), ((symbol->y + symbol->h) << 2));
 
     gSPTextureRectangle(GFX1++,
-                (xpos << 2), (ypos << 2),
-                ((xpos + symbol->w) << 2), ((ypos + symbol->h) << 2),
+                (xpos << 2)*(SCREEN_WD/320), (ypos << 2)*(SCREEN_WD/320),
+                ((xpos + symbol->w) << 2)*(SCREEN_WD/320), ((ypos + symbol->h) << 2)*(SCREEN_WD/320),
                 G_TX_RENDERTILE,
                 (symbol->x << 5), (symbol->y << 5),
-                (1 << 10), (1 << 10));
+                (1 << 10)/(SCREEN_WD/320), (1 << 10)/(SCREEN_WD/320));
 }
 
 #include "stdarg.h"

@@ -38,7 +38,7 @@ void D_memmove(void *dest, void *src) // 800019F0
 =
 ====================
 */
-
+#if 0
 void D_memset(void *dest, int val, int count) // 80001A20
 {
 	byte	*p;
@@ -69,7 +69,7 @@ void D_memset(void *dest, int val, int count) // 80001A20
 	while (count--)
 		*p++ = (char)val;
 }
-
+#endif
 /*
 ====================
 =
@@ -77,7 +77,7 @@ void D_memset(void *dest, int val, int count) // 80001A20
 =
 ====================
 */
-
+#if 0
 void D_memcpy(void *dest, void *src, int count) // 80001ACC
 {
 	byte	*d, *s;
@@ -131,7 +131,7 @@ void D_memcpy(void *dest, void *src, int count) // 80001ACC
         }
     }
 }
-
+#endif
 /*
 ====================
 =

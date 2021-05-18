@@ -4,9 +4,10 @@
 #include "doomdef.h"
 #include "p_spec.h"
 #include "r_local.h"
+#include "st_main.h"
 
 int gamevbls;		            // 80063130 /* may not really be vbls in multiplayer */
-int gametic;		            // 80063134
+extern int gametic;		            // 80063134
 int ticsinframe;                // 80063138 /* how many tics since last drawer */
 int ticon;			            // 8006313C
 int lastticon;                  // 80063140

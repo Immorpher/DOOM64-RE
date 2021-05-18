@@ -286,7 +286,7 @@ void	R_RenderBSPNode (int bspnum);
 typedef void(*skyfunc_t)();
 extern fixed_t  FogNear;            // 800A8120
 extern int      FogColor;           // 800A8124
-skyfunc_t       R_RenderSKY;        // 800A8130
+extern skyfunc_t       R_RenderSKY;        // 800A8130
 extern int      Skyfadeback;        // 800A814C
 
 void R_SetupSky(void);
@@ -296,7 +296,8 @@ void R_SetupSky(void);
 /*--------*/
 void R_RenderAll(void);
 void R_RenderPSprites(void);
-
+void R_RenderPlane(leaf_t *leaf, int numverts, int zpos, int texture, int xpos, int ypos, int color);
+void R_RenderFilter(void);
 
 /* to get a global angle from cartesian coordinates, the coordinates are */
 /* flipped until they are in the first octant of the coordinate system, then */

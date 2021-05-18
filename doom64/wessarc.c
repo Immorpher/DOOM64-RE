@@ -134,22 +134,7 @@ short GetIntsPerSec(void) // 800353DC
 
 unsigned long CalcPartsPerInt(short ips, short ppq, short qpm) // 800353E4
 {
-	register unsigned long arg0;
-	register unsigned long ppi;
-
-    __ll_mul((s32) qpm >> 31, qpm, 0, (1<<16));
-    asm("move	%0,$2":"=r"(arg0) : );
-	asm("move	%0,$3":"=r"(ppi) : );
-    __ll_mul(arg0, (u32) ppi, (s32) ppq >> 31, ppq);
-    asm("move	%0,$2":"=r"(arg0) : );
-	asm("move	%0,$3":"=r"(ppi) : );
-    __ull_div(arg0, (u32) ppi, 0, 60);
-    asm("move	%0,$2":"=r"(arg0) : );
-	asm("move	%0,$3":"=r"(ppi) : );
-	__ull_div(arg0, (u32) ppi, (s32) ips >> 31, ips);
-	asm("move	%0,$2":"=r"(arg0) : );
-	asm("move	%0,$3":"=r"(ppi) : );
-    return (u32) ppi;
+	return (u32) ((s32)qpm  * (s32)ppq * 1092) / (u32)ips;
 }
 
 long WessInterruptHandler(void) // 80035458

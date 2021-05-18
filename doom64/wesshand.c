@@ -24,7 +24,7 @@ extern unsigned char CmdSort[44];
 extern void(*DrvFunctions[36])(track_status *);
 
 /* used by wess trigger functions */
-enum HandleFlag { NoHandle, YesHandle };
+//enum HandleFlag { NoHandle, YesHandle };
 
 enum HandleStatus { HANDLE_INVALID, HANDLE_STOPPED, HANDLE_PLAYING };
 

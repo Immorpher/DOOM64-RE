@@ -16,6 +16,7 @@ enum Seq_Load_Error {
     SEQLOAD_FSEEK
 };
 
+enum HandleFlag { NoHandle, YesHandle };
 enum OpenSeqHandleFlag {NoOpenSeqHandle,YesOpenSeqHandle};
 
     /*
